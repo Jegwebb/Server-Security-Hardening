@@ -12,6 +12,9 @@
     
     :Description 
                  Script to perform server hardening settings on a new on-prem or azure Windows Servers.
+
+                 Instructions:
+                 - Add the domain name in the configre section below.  You will be prompted for your domain admin credentials to join the domain.
          
     :Changelog   : 
                 
