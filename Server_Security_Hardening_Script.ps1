@@ -120,7 +120,7 @@ New-ItemProperty -Path "HKLM:\System\CurrentControlSet\Services\LanmanServer\Par
 
 # Disable NTLMv1 Authentication
 
-Set-ItemProperty "HKLM\SYSTEM\CurrentControlSet\Control\Lsa"  -Name 'lmcompatibilitylevel' -Value '5' -PropertyType 'DWORD' -Force
+New-ItemProperty "HKLM:\SYSTEM\CurrentControlSet\Control\Lsa"  -Name 'lmcompatibilitylevel' -Value '5' -PropertyType 'DWORD' -Force
 
 # Enable user-to-kernel protection along with other protections for CVE 2017-5715 and protections for CVE-2018-3639 (Speculative Store Bypass): SPECTRE
 
