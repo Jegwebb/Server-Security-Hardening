@@ -15,7 +15,7 @@
                      
     :Changelog   :  - V1.0 - 10/08/2023 - 
                     - V1.1 - 14/11/2023 - Added Hyper-V check and SPECTRE fix, Added disable SMBv1, Fixed TLS settings, Added disable NTLMv1 Authentication.
-                    - 
+                    - V1.2 - 23/10/2024 - Added checks for cipher suites before removal to avoid errors
                
 #>
 
@@ -150,6 +150,10 @@ New-ItemProperty -Path "HKLM:\Software\Microsoft\Cryptography\Wintrust\Config" -
 # Disable 3DES SHA and RC4 SHA & MD5
 # HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Cryptography\Configuration\Local\SSL\00010002
 
-Disable-TlsCipherSuite -Name 'TLS_RSA_WITH_3DES_EDE_CBC_SHA'
-Disable-TlsCipherSuite -Name 'TLS_RSA_WITH_RC4_128_SHA'
-Disable-TlsCipherSuite -Name 'TLS_RSA_WITH_RC4_128_MD5'
+$3DES = (Get-TlsCipherSuite -Name 'TLS_RSA_WITH_3DES_EDE_CBC_SHA').Name
+$RC4 = (Get-TlsCipherSuite -Name 'TLS_RSA_WITH_RC4_128_SHA').Name
+$MD5 = (Get-TlsCipherSuite -Name 'TLS_RSA_WITH_RC4_128_MD5').Name
+
+If ($3DES -ne $Null) {Disable-TlsCipherSuite -Name 'TLS_RSA_WITH_3DES_EDE_CBC_SHA'} 
+If ($RC4 -ne $Null) {Disable-TlsCipherSuite -Name 'TLS_RSA_WITH_RC4_128_SHA'} 
+If ($MD5 -ne $Null) {Disable-TlsCipherSuite -Name 'TLS_RSA_WITH_RC4_128_MD5'} 
