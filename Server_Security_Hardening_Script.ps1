@@ -2,8 +2,8 @@
     :Title: Server Hardening Script
 
     :Author      : J-G
-    :Date        : 14/11/2023
-    :Version     : 1.1
+    :Date        : 14/10/2024
+    :Version     : 1.2
 
     :prerequisite: 
 
