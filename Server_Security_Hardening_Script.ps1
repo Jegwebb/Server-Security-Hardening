@@ -16,6 +16,7 @@
     :Changelog   :  - V1.0 - 10/08/2023 - 
                     - V1.1 - 14/11/2023 - Added Hyper-V check and SPECTRE fix, Added disable SMBv1, Fixed TLS settings, Added disable NTLMv1 Authentication.
                     - V1.2 - 23/10/2024 - Added checks for cipher suites before removal to avoid errors
+                    - V1.3 - 16/05/2025 - Added check for LLMNR and if enabled, disable it.
                
 #>
 
@@ -146,6 +147,15 @@ If (!(Test-Path "HKLM:\Software\Wow6432Node\Microsoft\Cryptography\Wintrust\Conf
 New-ItemProperty -Path "HKLM:\Software\Wow6432Node\Microsoft\Cryptography\Wintrust\Config" -Name 'EnableCertPaddingCheck' -Value '1' -PropertyType 'String' -Force | Out-Null
 
 New-ItemProperty -Path "HKLM:\Software\Microsoft\Cryptography\Wintrust\Config" -Name 'EnableCertPaddingCheck' -Value '1' -PropertyType 'String' -Force | Out-Null
+
+# Disable LLMNR if it is enabled - CVE-2011-0657
+
+$LLMNRCHECK = $(Get-ItemProperty -Path "HKLM:\Software\Policies\Microsoft\Windows NT\DNSClient" -name EnableMulticast).EnableMulticast
+
+If ($LLMNRCHECK -ne "0") 
+{
+New-ItemProperty -Path "HKLM:\Software\Policies\Microsoft\Windows NT\DNSClient" -Name 'EnableMulticast' -Value '0' -PropertyType 'DWORD' -Force | Out-Null
+}
 
 # Disable 3DES SHA and RC4 SHA & MD5
 # HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Cryptography\Configuration\Local\SSL\00010002
