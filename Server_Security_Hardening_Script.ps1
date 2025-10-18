@@ -30,20 +30,6 @@
 
 # Disable TLS 1.0, 1.1, SSL 3.0 SSL 2.0 - Set TLS 1.2
 
-<#
-# TLS 1.3
-
-New-Item -Path "HKLM:\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\TLS 1.3\Server" -Force | Out-Null
-
-    New-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\TLS 1.3\Server" -Name 'Enabled' -Value '0' -PropertyType 'DWord' -Force | Out-Null
-    New-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\TLS 1.3\Server" -Name 'DisabledByDefault' -Value '0' -PropertyType 'DWord' -Force | Out-Null
-
-New-Item -Path "HKLM:\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\TLS 1.3\Client" -Force | Out-Null
-
-    New-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\TLS 1.3\Client" -Name 'Enabled' -Value '0' -PropertyType 'DWord' -Force | Out-Null
-    New-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\TLS 1.3\Client" -Name 'DisabledByDefault' -Value '0' -PropertyType 'DWord' -Force | Out-Null
-#>
-
 # TLS 1.2
 
 New-Item -Path "HKLM:\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\TLS 1.2\Server" -Force | Out-Null
@@ -167,3 +153,4 @@ $MD5 = (Get-TlsCipherSuite -Name 'TLS_RSA_WITH_RC4_128_MD5').Name
 If ($3DES -ne $Null) {Disable-TlsCipherSuite -Name 'TLS_RSA_WITH_3DES_EDE_CBC_SHA'} 
 If ($RC4 -ne $Null) {Disable-TlsCipherSuite -Name 'TLS_RSA_WITH_RC4_128_SHA'} 
 If ($MD5 -ne $Null) {Disable-TlsCipherSuite -Name 'TLS_RSA_WITH_RC4_128_MD5'} 
+
